@@ -8,6 +8,11 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  // Force IPv4: some hosts (Render, and others) don't support outbound
+  // IPv6, but Gmail's SMTP hostname often resolves to an IPv6 address by
+  // default — without this, connections fail with ENETUNREACH there
+  // even though the same code works fine locally (where IPv6 works).
+  family: 4,
   // Without these, a slow/blocked SMTP connection can hang forever with
   // no error — which blocks the whole HTTP request if it's awaited.
   // These make sure nodemailer gives up and rejects instead of hanging.
