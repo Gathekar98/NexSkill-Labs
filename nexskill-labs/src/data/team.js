@@ -10,7 +10,7 @@ export const team = [
     bio: "A graduate of Sipna College of Engineering & Technology, Amravati (2022). Worked as a data scientist at an MNC for a year before turning to mentorship, and has spent the two years since building and running the data science program's project-based curriculum.",
   },
   {
-    name: "Taylor kom",
+    name: "Taylor Fork",
     role: "Full-Stack Web Development Mentor",
     bio: "A graduate of the College of Engineering, Pune (COEP), class of 2020. Brings five years of full-stack development experience from an MNC into the classroom, along with four years spent mentoring cohorts through the full web development stack.",
   },
