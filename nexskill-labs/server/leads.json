@@ -144,5 +144,23 @@
     "stream": "Electronics & Telecommunication (ENTC)",
     "level": "Undergraduate",
     "receivedAt": "2026-08-27T05:25:57.755Z"
+  },
+  {
+    "type": "registration",
+    "context": "nqt",
+    "programLabel": "National Qualifier Test (NQT)",
+    "amount": 499,
+    "orderId": "order_TUjVEush8KkM1D",
+    "paymentId": "pay_TUjVMMhc7a8jzs",
+    "paidAt": "2026-08-27T08:46:23.046Z",
+    "name": "Ashwini Gathekar",
+    "phone": "9657677950",
+    "email": "ashwinigathekar2704@gmail.com",
+    "college": "vgffgz",
+    "tenthPercentage": "77",
+    "twelfthPercentage": "77",
+    "stream": "Computer Science (CSE)",
+    "level": "Undergraduate",
+    "receivedAt": "2026-08-27T08:46:23.047Z"
   }
 ]
