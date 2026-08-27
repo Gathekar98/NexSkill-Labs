@@ -1,63 +1,43 @@
-const nodemailer = require("nodemailer");
-const dns = require("dns").promises;
-
 // ─────────────────────────────────────────────────────────────
-// IPv4-forcing SMTP setup.
+// Email sending via Brevo's HTTP API (https://api.brevo.com) instead
+// of raw SMTP.
 //
-// Some hosts (Render included) don't support outbound IPv6, but
-// smtp.gmail.com resolves to BOTH an IPv4 and an IPv6 address. Setting
-// nodemailer's `family: 4` option is not reliably respected for every
-// connection it opens, so instead we resolve the IPv4 address ourselves
-// up front and connect directly to that IP. We still set `tls.servername`
-// to the real hostname so the TLS certificate check (which validates
-// against a hostname, not an IP) continues to pass correctly.
+// Why: Render blocks outbound traffic on SMTP ports (25, 465, 587) for
+// free web services (confirmed via Render's own changelog, Sept 2025) —
+// this is a network-level firewall rule, not something any code change
+// can work around. Brevo's API sends over plain HTTPS (port 443), which
+// is never blocked, since blocking it would break ordinary web traffic
+// too.
+//
+// Setup: sign up at brevo.com, verify BREVO_SENDER_EMAIL as a "sender"
+// in their dashboard (Settings → Senders, Domains & Dedicated IPs), then
+// generate an API key under SMTP & API → API Keys.
 // ─────────────────────────────────────────────────────────────
 
-let transporterPromise = null;
-
-async function buildTransporter() {
-  const hostname = process.env.SMTP_HOST;
-  let connectHost = hostname;
-
-  try {
-    const { address } = await dns.lookup(hostname, { family: 4 });
-    connectHost = address;
-  } catch (err) {
-    console.error(`Could not resolve IPv4 address for ${hostname}, falling back to hostname:`, err.message);
-  }
-
-  return nodemailer.createTransport({
-    host: connectHost,
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: Number(process.env.SMTP_PORT) === 465,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-    tls: {
-      servername: hostname, // keep TLS cert validation working against a real IP
-    },
-    connectionTimeout: 10_000,
-    greetingTimeout: 10_000,
-    socketTimeout: 10_000,
-  });
-}
-
-function getTransporter() {
-  if (!transporterPromise) {
-    transporterPromise = buildTransporter();
-  }
-  return transporterPromise;
-}
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const SENDER_EMAIL = process.env.BREVO_SENDER_EMAIL;
+const SENDER_NAME = process.env.BREVO_SENDER_NAME || "NexSkill Labs";
 
 async function sendMail({ to, subject, html }) {
-  const transporter = await getTransporter();
-  await transporter.sendMail({
-    from: `"NexSkill Labs" <${process.env.SMTP_USER}>`,
-    to,
-    subject,
-    html,
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "api-key": BREVO_API_KEY,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      sender: { name: SENDER_NAME, email: SENDER_EMAIL },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+    }),
   });
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`Brevo API error (${res.status}): ${body}`);
+  }
 }
 
 // Fire-and-forget version: use this whenever the email is a
