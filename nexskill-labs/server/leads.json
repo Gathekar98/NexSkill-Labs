@@ -162,5 +162,23 @@
     "stream": "Computer Science (CSE)",
     "level": "Undergraduate",
     "receivedAt": "2026-08-27T08:46:23.047Z"
+  },
+  {
+    "type": "registration",
+    "context": "nqt",
+    "programLabel": "National Qualifier Test (NQT)",
+    "amount": 499,
+    "orderId": "order_TUjhGuuW9XOua0",
+    "paymentId": "pay_TUjhN949zAxFfN",
+    "paidAt": "2026-08-27T08:57:42.925Z",
+    "name": "Ashwini Gathekar",
+    "phone": "9657677950",
+    "email": "harshaldurgawale@gmail.com",
+    "college": "daeG",
+    "tenthPercentage": "77",
+    "twelfthPercentage": "77",
+    "stream": "Computer Science (CSE)",
+    "level": "Undergraduate",
+    "receivedAt": "2026-08-27T08:57:42.926Z"
   }
 ]
