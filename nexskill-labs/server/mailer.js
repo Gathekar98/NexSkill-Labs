@@ -1,27 +1,57 @@
 const nodemailer = require("nodemailer");
+const dns = require("dns").promises;
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT || 587),
-  secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-  // Force IPv4: some hosts (Render, and others) don't support outbound
-  // IPv6, but Gmail's SMTP hostname often resolves to an IPv6 address by
-  // default — without this, connections fail with ENETUNREACH there
-  // even though the same code works fine locally (where IPv6 works).
-  family: 4,
-  // Without these, a slow/blocked SMTP connection can hang forever with
-  // no error — which blocks the whole HTTP request if it's awaited.
-  // These make sure nodemailer gives up and rejects instead of hanging.
-  connectionTimeout: 10_000,
-  greetingTimeout: 10_000,
-  socketTimeout: 10_000,
-});
+// ─────────────────────────────────────────────────────────────
+// IPv4-forcing SMTP setup.
+//
+// Some hosts (Render included) don't support outbound IPv6, but
+// smtp.gmail.com resolves to BOTH an IPv4 and an IPv6 address. Setting
+// nodemailer's `family: 4` option is not reliably respected for every
+// connection it opens, so instead we resolve the IPv4 address ourselves
+// up front and connect directly to that IP. We still set `tls.servername`
+// to the real hostname so the TLS certificate check (which validates
+// against a hostname, not an IP) continues to pass correctly.
+// ─────────────────────────────────────────────────────────────
+
+let transporterPromise = null;
+
+async function buildTransporter() {
+  const hostname = process.env.SMTP_HOST;
+  let connectHost = hostname;
+
+  try {
+    const { address } = await dns.lookup(hostname, { family: 4 });
+    connectHost = address;
+  } catch (err) {
+    console.error(`Could not resolve IPv4 address for ${hostname}, falling back to hostname:`, err.message);
+  }
+
+  return nodemailer.createTransport({
+    host: connectHost,
+    port: Number(process.env.SMTP_PORT || 587),
+    secure: Number(process.env.SMTP_PORT) === 465,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+    tls: {
+      servername: hostname, // keep TLS cert validation working against a real IP
+    },
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 10_000,
+  });
+}
+
+function getTransporter() {
+  if (!transporterPromise) {
+    transporterPromise = buildTransporter();
+  }
+  return transporterPromise;
+}
 
 async function sendMail({ to, subject, html }) {
+  const transporter = await getTransporter();
   await transporter.sendMail({
     from: `"NexSkill Labs" <${process.env.SMTP_USER}>`,
     to,
@@ -40,5 +70,4 @@ function sendMailAsync({ to, subject, html }) {
   });
 }
 
-module.exports = { sendMail, sendMailAsync, transporter };
-
+module.exports = { sendMail, sendMailAsync };
