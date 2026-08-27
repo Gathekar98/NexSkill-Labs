@@ -1,0 +1,10 @@
+<svg width="640" height="160" viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="80" cy="34" r="10" fill="#22D3EE"/>
+  <circle cx="46" cy="112" r="10" fill="#A78BFA"/>
+  <circle cx="114" cy="112" r="10" fill="#F472B6"/>
+  <path d="M80 45 L48 100 M80 45 L112 100 M52 112 L108 112"
+        stroke="#7C3AED" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+
+  <text x="192" y="76" font-family="'Space Grotesk', 'Segoe UI', sans-serif" font-size="42" font-weight="700" fill="#F4F1FB">NexSkill</text>
+  <text x="192" y="112" font-family="'Space Grotesk', 'Segoe UI', sans-serif" font-size="42" font-weight="700" fill="#A78BFA">Labs</text>
+</svg>
