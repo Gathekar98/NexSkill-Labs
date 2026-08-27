@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { sendMail } = require("./mailer");
+const { sendMailAsync } = require("./mailer");
 const { saveLead, readLeads } = require("./store");
 const {
   contactAdminEmail,
@@ -50,53 +50,42 @@ function validate(fields, required) {
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
 // Contact form
-app.post("/api/contact", rateLimit, async (req, res) => {
+app.post("/api/contact", rateLimit, (req, res) => {
   const { name, email, phone, message } = req.body || {};
   const error = validate({ name, email, message }, ["name", "email", "message"]);
   if (error) return res.status(400).json({ ok: false, error });
 
   saveLead({ type: "contact", name, email, phone, message });
-  try {
-    const { subject, html } = contactAdminEmail({ name, email, phone, message });
-    await sendMail({ to: process.env.NOTIFY_EMAIL, subject, html });
-    res.json({ ok: true });
-  } catch (err) {
-    console.error("contact error:", err.message);
-    res.status(200).json({ ok: true, warning: "Saved, but email notification failed." });
-  }
+  res.json({ ok: true });
+
+  const { subject, html } = contactAdminEmail({ name, email, phone, message });
+  sendMailAsync({ to: process.env.NOTIFY_EMAIL, subject, html });
 });
 
 // Careers / job application form (unrelated to paid program registrations)
-app.post("/api/register", rateLimit, async (req, res) => {
+app.post("/api/register", rateLimit, (req, res) => {
   const { name, email, phone, program, message } = req.body || {};
   const error = validate({ name, email }, ["name", "email"]);
   if (error) return res.status(400).json({ ok: false, error });
 
   saveLead({ type: "careers_application", name, email, phone, program, message });
-  try {
-    const { subject, html } = careersAdminEmail({ name, email, phone, program, message });
-    await sendMail({ to: process.env.NOTIFY_EMAIL, subject, html });
-    res.json({ ok: true });
-  } catch (err) {
-    console.error("register error:", err.message);
-    res.status(200).json({ ok: true, warning: "Saved, but email notification failed." });
-  }
+  res.json({ ok: true });
+
+  const { subject, html } = careersAdminEmail({ name, email, phone, program, message });
+  sendMailAsync({ to: process.env.NOTIFY_EMAIL, subject, html });
 });
 
 // Newsletter signup
-app.post("/api/subscribe", rateLimit, async (req, res) => {
+app.post("/api/subscribe", rateLimit, (req, res) => {
   const { email } = req.body || {};
   const error = validate({ email }, ["email"]);
   if (error) return res.status(400).json({ ok: false, error });
 
   saveLead({ type: "subscribe", email });
-  try {
-    const { subject, html } = subscribeAdminEmail({ email });
-    await sendMail({ to: process.env.NOTIFY_EMAIL, subject, html });
-  } catch (err) {
-    console.error("subscribe email failed:", err.message);
-  }
   res.json({ ok: true });
+
+  const { subject, html } = subscribeAdminEmail({ email });
+  sendMailAsync({ to: process.env.NOTIFY_EMAIL, subject, html });
 });
 
 // Paid registrations: NQT / internships / programs

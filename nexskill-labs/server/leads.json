@@ -180,5 +180,14 @@
     "stream": "Computer Science (CSE)",
     "level": "Undergraduate",
     "receivedAt": "2026-08-27T08:57:42.926Z"
+  },
+  {
+    "type": "careers_application",
+    "name": "Ashwini Gathekar",
+    "email": "ashwinigathekar2704@gmail.com",
+    "phone": "9657677950",
+    "program": "Data Science Intern",
+    "message": "i have 1 yr experince in data science",
+    "receivedAt": "2026-08-27T09:48:24.970Z"
   }
 ]

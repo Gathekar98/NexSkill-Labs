@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const razorpay = require("./lib/razorpay");
 const { getFee } = require("./config/fees");
 const { saveLead } = require("./store");
-const { sendMail } = require("./mailer");
+const { sendMailAsync } = require("./mailer");
 const {
   registrationAdminEmail,
   candidateConfirmationEmail,
@@ -114,23 +114,19 @@ router.post("/verify", async (req, res) => {
   deletePendingOrder(orderId);
   saveLead(registration);
 
-  // Fire both emails. If one fails, don't fail the whole request — the
-  // registration itself (and the payment) is already confirmed and saved.
-  try {
-    const admin = registrationAdminEmail(registration);
-    await sendMail({ to: process.env.NOTIFY_EMAIL, subject: admin.subject, html: admin.html });
-  } catch (err) {
-    console.error("admin registration email failed:", err.message);
-  }
-
-  try {
-    const candidate = candidateConfirmationEmail(registration);
-    await sendMail({ to: registration.email, subject: candidate.subject, html: candidate.html });
-  } catch (err) {
-    console.error("candidate confirmation email failed:", err.message);
-  }
-
+  // Respond immediately — the payment is verified and the registration
+  // is saved, so the candidate should see success right away. Emails are
+  // sent in the background: they must never block or delay this response,
+  // since a slow/unreachable SMTP server would otherwise hang the whole
+  // request (this is exactly what caused the frontend to get stuck at
+  // "Opening payment..." with no response ever coming back).
   res.json({ ok: true });
+
+  const admin = registrationAdminEmail(registration);
+  sendMailAsync({ to: process.env.NOTIFY_EMAIL, subject: admin.subject, html: admin.html });
+
+  const candidate = candidateConfirmationEmail(registration);
+  sendMailAsync({ to: registration.email, subject: candidate.subject, html: candidate.html });
 });
 
 module.exports = router;

@@ -223,7 +223,7 @@ export default function RegistrationForm({ context }) {
                 type="button"
                 key={l}
                 onClick={() => setForm((f) => ({ ...f, level: l }))}
-                className={`min-w-0 flex-1 truncate rounded-lg border px-3 py-3 text-sm transition ${
+                className={`min-w-0 flex-1 rounded-lg border px-2 py-3 text-xs sm:text-sm transition ${
                   form.level === l
                     ? "border-violet-soft bg-violet/20 text-white"
                     : "border-line bg-surface2 text-paper/70 hover:border-violet-soft"
