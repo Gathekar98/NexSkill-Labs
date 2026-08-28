@@ -22,7 +22,7 @@ export default function About() {
       </section>
 
       <section className="container-px pb-20 md:pb-28 grid gap-12 lg:grid-cols-2 items-start">
-        <div>
+        <div className="min-w-0">
           <h2 className="font-display text-2xl font-semibold mb-4">
             Based in Pune, working everywhere
           </h2>
@@ -47,7 +47,7 @@ export default function About() {
           </p>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <h2 className="font-display text-2xl font-semibold mb-4">Send us a message</h2>
           <ContactForm />
         </div>

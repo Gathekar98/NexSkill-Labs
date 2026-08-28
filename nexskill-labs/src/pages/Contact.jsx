@@ -12,11 +12,11 @@ export default function Contact() {
       />
 
       <section className="section container-px grid gap-12 lg:grid-cols-5">
-        <div className="lg:col-span-3">
+        <div className="min-w-0 lg:col-span-3">
           <ContactForm />
         </div>
 
-        <div className="lg:col-span-2 space-y-8">
+        <div className="min-w-0 lg:col-span-2 space-y-8">
           <div>
             <p className="eyebrow mb-3">Get in touch</p>
             <ul className="space-y-3 text-paper/85">
@@ -46,7 +46,7 @@ export default function Contact() {
             />
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap">
             {Object.entries(site.social).map(([key, href]) => (
               <a
                 key={key}

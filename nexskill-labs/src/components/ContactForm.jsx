@@ -26,7 +26,7 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card p-8 space-y-5">
+    <form onSubmit={handleSubmit} className="card w-full min-w-0 max-w-full p-8 space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block text-sm">
           <span className="text-paper/70">Name</span>

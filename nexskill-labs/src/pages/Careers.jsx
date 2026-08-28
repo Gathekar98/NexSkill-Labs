@@ -18,7 +18,7 @@ export default function Careers() {
       />
 
       <section className="section container-px grid gap-10 lg:grid-cols-2">
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           {openings.map((o) => (
             <div key={o.role} className="card flex items-center justify-between p-6">
               <div>
@@ -32,7 +32,7 @@ export default function Careers() {
           ))}
         </div>
 
-        <div id="apply">
+        <div id="apply" className="min-w-0">
           <h2 className="font-display text-2xl font-semibold mb-4">Apply now</h2>
           <ApplicationForm />
         </div>
