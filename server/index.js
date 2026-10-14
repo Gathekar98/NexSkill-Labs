@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 const express = require("express");
 const cors = require("cors");
 const { sendMailAsync } = require("./mailer");
@@ -16,7 +16,19 @@ app.use(express.json());
 const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173,http://127.0.0.1:5173")
   .split(",")
   .map((o) => o.trim());
-app.use(cors({ origin: allowedOrigins }));
+app.use(cors({
+  origin(origin, callback) {
+    let localDevelopment = false;
+    if (process.env.NODE_ENV === "development" && origin) {
+      try {
+        const url = new URL(origin);
+        localDevelopment = url.protocol === "http:" &&
+          ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
+      } catch { /* Invalid origins are not allowed. */ }
+    }
+    callback(null, !origin || allowedOrigins.includes(origin) || localDevelopment);
+  },
+}));
 
 // --- tiny in-memory rate limiter (per IP) to cut down on spam ---
 const hits = new Map();

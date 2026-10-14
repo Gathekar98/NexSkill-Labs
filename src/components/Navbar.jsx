@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import { site, navigation } from "../data/site";
 
 function NodeMark() {
@@ -64,9 +65,10 @@ export default function Navbar() {
                     <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" />
                   </svg>
                 </button>
+                <AnimatePresence>
                 {programsOpen && (
-                  <div className="absolute left-0 top-full pt-2 w-64">
-                    <div className="card p-2 shadow-card">
+                  <motion.div initial={{ opacity: 0, y: 8, scale: .98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 5, scale: .98 }} transition={{ duration: .18 }} className="absolute left-0 top-full pt-2 w-72">
+                    <div className="nav-dropdown card p-2 shadow-card">
                       {item.children.map((c) => (
                         <NavLink
                           key={c.to}
@@ -77,8 +79,9 @@ export default function Navbar() {
                         </NavLink>
                       ))}
                     </div>
-                  </div>
+                  </motion.div>
                 )}
+                </AnimatePresence>
               </div>
             ) : (
               <NavLink
@@ -103,7 +106,7 @@ export default function Navbar() {
         </div>
 
         <button
-          className="lg:hidden p-2 text-paper"
+          className="menu-toggle lg:hidden p-2 text-paper"
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
           aria-expanded={open}
@@ -118,8 +121,9 @@ export default function Navbar() {
         </button>
       </nav>
 
+      <AnimatePresence>
       {open && (
-        <div className="lg:hidden border-t border-line bg-white px-6 pb-6">
+        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: .25 }} className="mobile-menu lg:hidden overflow-y-auto border-t border-line bg-white px-6 pb-6">
           {navigation.map((item) =>
             item.children ? (
               <div key={item.label} className="py-2">
@@ -145,8 +149,9 @@ export default function Navbar() {
           <Link to="/contact" className="btn-primary text-sm mt-4 w-full justify-center">
             Talk to Us
           </Link>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </header>
   );
 }

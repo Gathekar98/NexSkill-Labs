@@ -1,5 +1,14 @@
+function getCredentials() {
+  return {
+    keyId: (process.env.RAZORPAY_KEY_ID || "").trim(),
+    keySecret: (process.env.RAZORPAY_KEY_SECRET || "").trim(),
+  };
+}
+
 function isConfigured() {
-  return Boolean(process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET);
+  const { keyId, keySecret } = getCredentials();
+  return /^rzp_(test|live)_[A-Za-z0-9]+$/.test(keyId) &&
+    Boolean(keySecret) && !/^(your[-_]|<)/i.test(keySecret);
 }
 
 async function createOrder(orderData) {
@@ -7,9 +16,8 @@ async function createOrder(orderData) {
     throw new Error("Razorpay credentials are not configured.");
   }
 
-  const credentials = Buffer.from(
-    `${process.env.RAZORPAY_KEY_ID}:${process.env.RAZORPAY_KEY_SECRET}`
-  ).toString("base64");
+  const { keyId, keySecret } = getCredentials();
+  const credentials = Buffer.from(`${keyId}:${keySecret}`).toString("base64");
 
   const response = await fetch("https://api.razorpay.com/v1/orders", {
     method: "POST",
@@ -34,4 +42,4 @@ async function createOrder(orderData) {
   return payload;
 }
 
-module.exports = { createOrder, isConfigured };
+module.exports = { createOrder, isConfigured, getCredentials };

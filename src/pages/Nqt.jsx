@@ -27,7 +27,7 @@ export default function Nqt() {
         ))}
       </section>
 
-      <section id="register" className="container-px pb-20 md:pb-28 max-w-xl">
+      <section id="register" className="container-px pb-20 md:pb-28 max-w-2xl">
         <h2 className="font-display text-2xl md:text-3xl font-semibold mb-6">
           Register for the NQT
         </h2>

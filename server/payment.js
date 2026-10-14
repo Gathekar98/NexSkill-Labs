@@ -1,6 +1,6 @@
 const express = require("express");
 const crypto = require("crypto");
-const { createOrder, isConfigured } = require("./lib/razorpay");
+const { createOrder, isConfigured, getCredentials } = require("./lib/razorpay");
 const { getFee } = require("./config/fees");
 const { saveLead } = require("./store");
 const { sendMailAsync } = require("./mailer");
@@ -71,7 +71,7 @@ router.post("/create-order", async (req, res) => {
       orderId: order.id,
       amount: order.amount,
       currency: order.currency,
-      keyId: process.env.RAZORPAY_KEY_ID,
+      keyId: getCredentials().keyId,
       programLabel: fee.label,
     });
   } catch (err) {
@@ -115,7 +115,7 @@ router.post("/verify", async (req, res) => {
   }
 
   const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+    .createHmac("sha256", getCredentials().keySecret)
     .update(`${orderId}|${paymentId}`)
     .digest("hex");
 
