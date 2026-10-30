@@ -1,7 +1,14 @@
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="102" r="30" fill="#22D3EE"/>
-  <circle cx="102" cy="358" r="30" fill="#A78BFA"/>
-  <circle cx="410" cy="358" r="30" fill="#F472B6"/>
-  <path d="M256 148 L128 320 M256 148 L384 320 M144 358 L368 358"
-        stroke="#7C3AED" stroke-width="16" fill="none" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 140" role="img" aria-labelledby="title desc">
+  <title id="title">NexSkill Labs</title><desc id="desc">A folded N-shaped ribbon rising into a human figure</desc>
+  <defs>
+    <linearGradient id="lower" x1="20" y1="112" x2="139" y2="67" gradientUnits="userSpaceOnUse"><stop stop-color="#8B42F2"/><stop offset=".48" stop-color="#31105D"/><stop offset="1" stop-color="#210A43"/></linearGradient>
+    <linearGradient id="upper" x1="18" y1="116" x2="151" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#7435E8"/><stop offset=".22" stop-color="#7444F2"/><stop offset=".52" stop-color="#08C3E9"/><stop offset=".72" stop-color="#10B6DB"/><stop offset=".9" stop-color="#FF7A00"/><stop offset="1" stop-color="#FF981C"/></linearGradient>
+    <linearGradient id="person" x1="126" y1="83" x2="150" y2="31" gradientUnits="userSpaceOnUse"><stop stop-color="#F45B17"/><stop offset="1" stop-color="#FF9A1A"/></linearGradient>
+    <radialGradient id="head" cx="0" cy="0" r="1" gradientTransform="translate(140 14) rotate(124) scale(26)"><stop stop-color="#FFAA22"/><stop offset="1" stop-color="#F45A15"/></radialGradient>
+  </defs>
+  <path d="M17 117C25 82 41 60 58 65c20 6 27 43 43 48 13 4 24-11 35-43l16 6c-13 40-30 59-52 57-27-2-36-38-49-44-8-4-14 10-18 31-3 14-20 12-16-3Z" fill="url(#lower)"/>
+  <path d="M16 113C29 55 48 36 70 49c18 10 25 35 41 36 13 1 20-17 28-44l15 6c-10 36-22 58-44 58-27 0-33-30-48-37-12-5-21 12-27 46-3 17-23 16-19-1Z" fill="url(#upper)"/>
+  <path d="M123 84c6-9 10-23 16-43 2-7 8-10 15-7l5 2c-3 5-5 10-7 17-7 23-15 38-28 47-4-4-5-10-1-16Z" fill="url(#person)"/>
+  <path d="M30 96c8-22 18-34 29-31 18 4 26 37 42 43 7 3 14 1 20-4-7 16-15 26-25 28-23-7-31-37-44-43-8-3-14 3-22 20V96Z" fill="#2E0D56" opacity=".76"/>
+  <circle cx="148" cy="17" r="13" fill="url(#head)"/>
 </svg>

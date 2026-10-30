@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Minimal skill stack logo">
+  <defs><linearGradient id="g" x1="10" y1="52" x2="52" y2="10"><stop stop-color="#4938C8"/><stop offset="1" stop-color="#8E82F2"/></linearGradient></defs>
+  <path d="m32 7 25 13-25 13L7 20Z" fill="url(#g)"/>
+  <path d="m11 29 21 11 21-11" fill="none" stroke="#6554E8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m15 43 17 9 17-9" fill="none" stroke="#4938C8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity=".65"/>
+  <path d="M23 24V14l18 10V14" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

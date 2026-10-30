@@ -1,74 +1,49 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import SkillGraph from "../components/SkillGraph";
 import Testimonials from "../components/Testimonials";
-import { site } from "../data/site";
 import { programs } from "../data/programs";
 
-const categories = [
-  { title: "Student Training", desc: "Internships and workshops led by industry practitioners, run in step with a structured curriculum.", points: ["Cohort-based bootcamps", "Data Science, ML & full-stack tracks", "Certification on completion"], to: "/internship", icon: "✦" },
-  { title: "Research & Dev", desc: "Applied R&D work across emerging technology areas, done alongside our internal engineering team.", points: ["Machine learning & AI", "Applied data engineering", "Emerging tech prototyping"], to: "/research", icon: "⌘" },
-  { title: "Promotions", desc: "Marketing execution for brands who want campaigns measured by outcomes, not vanity metrics.", points: ["Email & SMS campaigns", "Ad creative & media buying", "Social media management"], to: "/promotions", icon: "↗" },
+const courseArt=["photo-1551288049-bebda4e38f71","photo-1517180102446-f3ece451e9d8","photo-1460925895917-afdab827c52f","photo-1550751827-4bd374c3f58b","photo-1558494949-ef010cbdcc31","photo-1518770660439-4636190af475","photo-1561070791-2526d30994b5","photo-1512941937669-90a1b58e7e9c"];
+const steps=[
+  {n:"01",title:"Master the essentials",text:"Clear, mentor-led lessons connected to useful industry problems.",tone:"violet"},
+  {n:"02",title:"Create work that proves it",text:"Turn concepts into projects you can confidently demonstrate and explain.",tone:"cyan"},
+  {n:"03",title:"Take your next step",text:"Prepare your portfolio, applications, and the conversations that move you forward.",tone:"apricot"},
 ];
 
-const courseArt = [
-  { image: "photo-1516321318423-f06f85e504b3", tone: "lavender", icon: "</>" },
-  { image: "photo-1555949963-ff9fe0c870eb", tone: "peach", icon: "AI" },
-  { image: "photo-1518770660439-4636190af475", tone: "mint", icon: "⌘" },
-  { image: "photo-1519389950473-47ba0277781c", tone: "blue", icon: "◎" },
-  { image: "photo-1558494949-ef010cbdcc31", tone: "peach", icon: "☁" },
-  { image: "photo-1550751827-4bd374c3f58b", tone: "lavender", icon: "⌑" },
-  { image: "photo-1551288049-bebda4e38f71", tone: "mint", icon: "▥" },
-  { image: "photo-1555066931-4365d14bab8c", tone: "blue", icon: "{ }" },
-];
+function StepIcon({index}){
+  const paths=[
+    <><path d="M5 7.5 12 4l7 3.5-7 3.5-7-3.5Z"/><path d="M7.5 9.1v4.2c0 1.3 2 2.7 4.5 2.7s4.5-1.4 4.5-2.7V9.1"/><path d="M19 8v5"/></>,
+    <><path d="M4.5 7.5h15v10h-15z"/><path d="M8 7.5V5h8v2.5M8 12h8M12 9v6"/></>,
+    <><path d="M5 18.5c2.1-4.8 5.5-8.5 10.7-11.4"/><path d="m12.5 5.5 4.1.7.7 4.1"/><path d="M5 14v4.5h4.5"/></>,
+  ];
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{paths[index]}</g></svg>;
+}
 
-export default function Home() {
-  const [activeTrack, setActiveTrack] = useState("All courses");
-  const courses = useMemo(() => Object.entries(programs).map(([slug, program], index) => ({ slug, program, ...courseArt[index % courseArt.length], category: /marketing/i.test(program.title) ? "Business" : "Technology" })), []);
-  const visibleCourses = activeTrack === "All courses" ? courses : courses.filter((course) => course.category === activeTrack);
+export default function Home(){
+  const [active,setActive]=useState("All");
+  const courses=useMemo(()=>Object.entries(programs).map(([slug,program],index)=>({slug,program,image:courseArt[index%courseArt.length],category:/marketing/i.test(program.title)?"Business":"Technology"})),[]);
+  const visible=active==="All"?courses.slice(0,8):courses.filter(item=>item.category===active);
+  return <div className="light-home">
+    <section className="light-hero">
+      <img className="light-hero-bg" src="/brand/nexskill-students-hero.png" alt="Four college students discussing a project outside a modern technology campus"/>
+      <div className="light-hero-overlay"/>
+      <div className="container-px light-hero-inner"><motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:.7,ease:[.22,1,.36,1]}}>
+        <span className="light-kicker"><i/> Admissions open for upcoming cohorts</span>
+        <h1>Build skills.<br/><em>Become more confident.</em></h1>
+        <p>Practical learning, real projects, and internship experiences designed for ambitious college students.</p>
+        <div className="light-hero-actions"><Link to="/internship" className="btn-primary">Explore programs <span>↗</span></Link><Link to="/about" className="light-link">How NexSkill works <span>→</span></Link></div>
+      </motion.div></div>
+      <div className="container-px light-proof"><div className="light-proof-card"><div><strong>2,000+</strong><span>Learners trained</span></div><div><strong>15+</strong><span>Skilled mentors</span></div><div><strong>9</strong><span>Career-focused tracks</span></div><p><b>Learn · Build · Intern · Grow</b><span>One connected journey from college to career.</span></p></div></div>
+    </section>
 
-  return (
-    <div>
-      <section className="hero-section relative overflow-hidden">
-        <div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" />
-        <div className="container-px relative grid items-center gap-10 py-12 md:py-14 lg:grid-cols-[.96fr_1.04fr] lg:gap-14 lg:py-14">
-          <motion.div className="hero-copy relative z-10" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .65, ease: [0.22, 1, 0.36, 1] }}>
-            <p className="hero-kicker"><span className="kicker-dot" /> PRACTICAL SKILLS • REAL PROJECTS</p>
-            <h1 className="font-display hero-title">Learn skills.<br />Build <span className="title-highlight">what&apos;s next.</span></h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">Practical courses, real-world projects and internship opportunities designed to turn your potential into progress.</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/internship" className="btn-primary">Explore programs <span aria-hidden="true">↗</span></Link>
-              <Link to="/about" className="btn-ghost">Discover NexSkill</Link>
-            </div>
-            <div className="hero-benefits mt-9 grid grid-cols-3 gap-3">
-              {[['▣','Industry-ready','curriculum'],['✦','Hands-on','projects'],['✓','Internship','opportunities']].map(([icon,title,label]) => <div className="hero-benefit" key={title}><span>{icon}</span><p><b>{title}</b><small>{label}</small></p></div>)}
-            </div>
-          </motion.div>
+    <section className="section container-px light-story"><div className="light-heading"><p className="eyebrow">A practical path forward</p><h2>Learning that leads<br/>to something real.</h2><p>We combine focused teaching, thoughtful feedback, and hands-on work so each new skill becomes evidence of what you can do.</p></div><div className="light-steps">{steps.map((step,index)=><article className={`light-step-card ${step.tone}`} key={step.n}><div className="light-step-top"><span>{step.n}</span></div><div className="light-step-icon"><StepIcon index={index}/></div><div className="light-step-copy"><h3>{step.title}</h3><p>{step.text}</p></div></article>)}</div></section>
 
-          <motion.div className="hero-visual relative mx-auto w-full max-w-[550px]" initial={{ opacity: 0, scale: .94, rotate: -2 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: .8, delay: .1, ease: [0.22, 1, 0.36, 1] }}>
-            <div className="hero-photo-wrap"><img src="/nexskill-hero-learners-v2.png" alt="Four NexSkill learners collaborating around a laptop" className="hero-photo" /><div className="photo-wash" /></div>
-            <div className="hero-sticker sticker-bottom"><span className="sticker-icon">⌂</span><span><b>Learn • Build • Grow</b><small>One connected learning journey</small></span></div>
-            <div className="hero-sparkle sparkle-one">✦</div>
-          </motion.div>
-        </div>
-        <div className="container-px pb-12"><div className="stats-ribbon mx-auto grid grid-cols-3 gap-3 md:gap-0">{site.stats.map((stat) => <div key={stat.label} className="stat-item"><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div></div>
-      </section>
+    <section className="section light-programs" id="courses"><div className="container-px"><div className="light-section-row"><div><p className="eyebrow">Explore learning paths</p><h2>Choose what you want<br/>to become better at.</h2></div><div className="hm-filter" role="group" aria-label="Filter programs">{["All","Technology","Business"].map(item=><button type="button" className={active===item?"active":""} onClick={()=>setActive(item)} key={item}>{item}</button>)}</div></div><motion.div layout className="light-course-grid"><AnimatePresence mode="popLayout">{visible.map(({slug,program,image,category})=><motion.div layout initial={{opacity:0,scale:.97}} animate={{opacity:1,scale:1}} exit={{opacity:0,scale:.97}} key={slug}><Link className="light-course" to={`/programs/${slug}`}><div><img src={`https://images.unsplash.com/${image}?auto=format&fit=crop&w=900&q=82`} alt="" loading="lazy"/><span>{category}</span></div><section><small>{program.duration}</small><h3>{program.title}</h3><footer><span>{program.mode}</span><b>↗</b></footer></section></Link></motion.div>)}</AnimatePresence></motion.div><div className="light-center"><Link className="btn-ghost" to="/internship">View every program <span>→</span></Link></div></div></section>
 
-      <section className="section container-px courses-section" id="courses">
-        <div className="section-heading flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="eyebrow mb-3">Find your direction</p><h2 className="font-display text-3xl font-bold md:text-4xl">Skills that move you forward<span className="heading-period">.</span></h2><p className="mt-3 max-w-xl text-muted">Explore hands-on programs taught by people who do the work every day.</p></div><div className="course-filters" role="group" aria-label="Filter courses">{["All courses", "Technology", "Business"].map((track) => <button type="button" key={track} onClick={() => setActiveTrack(track)} className={`filter-chip ${activeTrack === track ? "active" : ""}`} aria-pressed={activeTrack === track}>{track}</button>)}</div></div>
-        <motion.div layout className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"><AnimatePresence mode="popLayout">{visibleCourses.map(({ slug, program, image, tone, icon, category }) => <motion.div layout initial={{ opacity: 0, scale: .96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: .96 }} transition={{ duration: .25 }} key={slug}><Link to={`/programs/${slug}`} className="course-card group h-full"><div className={`course-image ${tone}`}><img src={`https://images.unsplash.com/${image}?auto=format&fit=crop&w=720&q=78`} alt="" loading="lazy" /><span className="course-mark">{icon}</span><span className="course-category">{category}</span></div><div className="course-body"><p className="course-duration">{program.duration}</p><h3>{program.title}</h3><p className="course-summary">{program.description}</p><span className="course-link">Explore course <span aria-hidden="true">↗</span></span></div></Link></motion.div>)}</AnimatePresence></motion.div>
-        <div className="mt-9 text-center"><Link to="/internship" className="btn-ghost">Browse all programs <span aria-hidden="true">→</span></Link></div>
-      </section>
+    <section className="section container-px"><div className="light-feature"><div className="light-feature-image"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=84" alt="College students collaborating" loading="lazy"/><span>Real people.<br/>Useful feedback.</span></div><div className="light-feature-copy"><p className="eyebrow">More than online lessons</p><h2>Build alongside people<br/>who want you to succeed.</h2><p>Mentors help you move through uncertainty, improve your work, and understand how professionals approach real problems.</p><ul><li><span>✓</span>Weekly mentor guidance</li><li><span>✓</span>Practical project briefs</li><li><span>✓</span>Portfolio and interview support</li></ul><Link to="/about" className="light-link dark">Meet NexSkill Labs <span>→</span></Link></div></div></section>
 
-      <section className="section container-px category-section"><div className="text-center"><p className="eyebrow mb-3">More than a classroom</p><h2 className="font-display text-3xl font-bold md:text-4xl">A place to grow your way<span className="heading-period">.</span></h2><p className="mx-auto mt-3 max-w-xl text-muted">Learn, experiment and put your ideas to work with NexSkill Labs.</p></div><div className="mt-11 grid gap-5 md:grid-cols-3">{categories.map((category) => <div key={category.title} className="category-card"><div className="category-icon">{category.icon}</div><h3>{category.title}</h3><p className="text-sm leading-relaxed text-muted">{category.desc}</p><ul>{category.points.map((point) => <li key={point}><span>✓</span>{point}</li>)}</ul><Link to={category.to} className="category-link">Discover more <span aria-hidden="true">↗</span></Link></div>)}</div></section>
-
-      <section className="journey-section container-px pb-20"><div className="journey-panel"><div><p className="eyebrow mb-3">The NexSkill ecosystem</p><h2 className="font-display text-3xl font-bold md:text-4xl">A connected learning journey.</h2><p className="mt-3 max-w-lg text-muted">Courses, projects, mentors and internships work together—so every new skill moves you closer to the work you want to do.</p><Link to="/internship" className="btn-primary mt-7">Start your journey <span aria-hidden="true">↗</span></Link></div><div className="journey-graph"><SkillGraph className="w-full" /></div></div></section>
-
-      <section className="section container-px about-section"><div className="about-panel grid items-center gap-10 lg:grid-cols-2"><div className="about-images"><img className="about-photo about-photo-main" src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=82" alt="A team of learners working together" loading="lazy" /><img className="about-photo about-photo-small" src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=600&q=82" alt="Student studying with a laptop" loading="lazy" /><span className="about-scribble">ideas<br />into impact <b>↗</b></span></div><div className="about-copy"><p className="eyebrow mb-3">About NexSkill Labs</p><h2 className="font-display text-3xl font-bold md:text-4xl">Real projects. Real mentors. A more confident you.</h2><p className="mt-5 leading-relaxed text-muted">{site.name} works on real business problems — automation, data pipelines, applied machine learning — and brings learners into that work directly. Our mentors help people identify problems, prototype solutions, and ship things that work, using a people-first approach rather than a purely technology-led one.</p><Link to="/about" className="btn-primary mt-7">Read our story <span aria-hidden="true">↗</span></Link></div></div></section>
-
-      <Testimonials />
-      <section className="container-px pb-20"><div className="cta-banner"><div><p className="eyebrow mb-3">Let&apos;s find your fit</p><h2 className="font-display text-3xl font-bold md:text-4xl">Your future is a skill away.</h2><p className="mt-3 text-muted">Talk with our team and find the program that feels right.</p></div><Link to="/contact" className="btn-primary">Talk to a mentor <span aria-hidden="true">↗</span></Link><span className="cta-decoration" aria-hidden="true">✳</span></div></section>
-    </div>
-  );
+    <Testimonials/>
+    <section className="container-px light-cta-wrap"><div className="light-cta"><div><p className="eyebrow">Not sure where to begin?</p><h2>Let&apos;s find your next step.</h2><p>Tell us what interests you and we&apos;ll help you choose a suitable learning path.</p></div><Link to="/contact" className="btn-primary">Talk to a mentor <span>↗</span></Link><svg viewBox="0 0 240 100" aria-hidden="true"><path d="M8 78C38 8 70 17 98 50l20 24c17 18 35 5 57-42" fill="none" stroke="url(#cta-ribbon)" strokeWidth="13" strokeLinecap="round"/><circle cx="182" cy="21" r="10" fill="#F3A36F"/><defs><linearGradient id="cta-ribbon" x1="8" y1="78" x2="185" y2="17"><stop stopColor="#6554E8"/><stop offset=".55" stopColor="#22B8CF"/><stop offset="1" stopColor="#F3A36F"/></linearGradient></defs></svg></div></section>
+  </div>;
 }

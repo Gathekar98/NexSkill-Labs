@@ -3,21 +3,6 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { site, navigation } from "../data/site";
 
-function NodeMark() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
-      <circle cx="15" cy="6" r="3" fill="#6554E8" />
-      <circle cx="6" cy="22" r="3" fill="#8E82F2" />
-      <circle cx="24" cy="22" r="3" fill="#F3A36F" />
-      <path
-        d="M15 9 L6 19 M15 9 L24 19 M8 22 L22 22"
-        stroke="#4938C8"
-        strokeWidth="1.4"
-      />
-    </svg>
-  );
-}
-
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -37,14 +22,12 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors ${
-        scrolled ? "bg-white/90 backdrop-blur border-b border-line shadow-sm" : "bg-white/80 backdrop-blur-sm"
-      }`}
+      className={`hm-nav sticky top-0 z-50 ${scrolled ? "is-scrolled" : ""}`}
     >
-      <nav className="container-px flex items-center justify-between h-18 py-4">
-        <Link to="/" className="flex items-center gap-2 font-display font-semibold text-lg">
-          <span className="brand-mark"><NodeMark /></span>
-          {site.name}
+      <nav className="container-px flex items-center justify-between py-3.5">
+        <Link to="/" className="brand-lockup" aria-label={`${site.name} home`}>
+          <img src="/brand/logo-mark.svg" alt="" width="48" height="38" className="brand-mark" />
+          <span className="brand-name"><strong>{site.shortName}</strong><span className="hm-logo-labs">Labs</span></span>
         </Link>
 
         <div className="hidden lg:flex items-center gap-1">
@@ -57,7 +40,7 @@ export default function Navbar() {
                 onMouseLeave={() => setProgramsOpen(false)}
               >
                 <button
-                  className="px-4 py-2 text-sm text-paper hover:text-violet transition rounded-full flex items-center gap-1"
+                  className="px-4 py-2 text-sm text-paper/75 hover:text-paper transition rounded-full flex items-center gap-1"
                   aria-expanded={programsOpen}
                 >
                   {item.label}
@@ -89,7 +72,7 @@ export default function Navbar() {
                 to={item.to}
                 className={({ isActive }) =>
                   `px-4 py-2 text-sm rounded-full transition ${
-                    isActive ? "text-violet font-semibold" : "text-paper hover:text-violet"
+                    isActive ? "bg-violet/10 text-violet-deep font-semibold" : "text-paper/75 hover:text-paper"
                   }`
                 }
               >
@@ -100,8 +83,8 @@ export default function Navbar() {
         </div>
 
         <div className="hidden lg:block">
-          <Link to="/contact" className="btn-primary text-sm py-2.5">
-            Talk to us <span aria-hidden="true">↗</span>
+          <Link to="/contact" className="hm-nav-cta">
+            Let&apos;s talk <span aria-hidden="true">↗</span>
           </Link>
         </div>
 
@@ -134,14 +117,14 @@ export default function Navbar() {
                   <Link
                     key={c.to}
                     to={c.to}
-                    className="block py-2 text-paper pl-2"
+                  className="block py-2 text-paper/80 pl-2"
                   >
                     {c.label}
                   </Link>
                 ))}
               </div>
             ) : (
-              <Link key={item.to} to={item.to} className="block py-2.5 text-paper">
+              <Link key={item.to} to={item.to} className="block py-2.5 text-paper/80">
                 {item.label}
               </Link>
             )

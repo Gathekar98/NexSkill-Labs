@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Modular skill tiles logo">
+  <defs><linearGradient id="g" x1="12" y1="54" x2="54" y2="10"><stop stop-color="#4938C8"/><stop offset="1" stop-color="#7667F2"/></linearGradient></defs>
+  <rect x="10" y="8" width="44" height="17" rx="6" fill="url(#g)"/>
+  <rect x="14" y="28" width="40" height="13" rx="5" fill="#6554E8" opacity=".78"/>
+  <rect x="19" y="44" width="35" height="11" rx="5" fill="#4938C8" opacity=".5"/>
+  <path d="M21 20V13l14 7v-7" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="45" cy="16.5" r="3.2" fill="#9FEAF5"/><circle cx="45" cy="34.5" r="2.8" fill="#F3A36F"/><circle cx="45" cy="49.5" r="2.5" fill="#fff"/>
+</svg>

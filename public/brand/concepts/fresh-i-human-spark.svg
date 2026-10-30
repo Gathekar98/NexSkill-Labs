@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Human potential logo">
+  <defs><linearGradient id="g" x1="13" y1="54" x2="52" y2="9"><stop stop-color="#4938C8"/><stop offset="1" stop-color="#8E82F2"/></linearGradient></defs>
+  <circle cx="32" cy="14" r="7" fill="#F3A36F"/>
+  <path d="M14 27c10 1 15 6 18 15 3-9 8-14 18-15" fill="none" stroke="url(#g)" stroke-width="7" stroke-linecap="round"/>
+  <path d="M32 42v15" stroke="#4938C8" stroke-width="7" stroke-linecap="round"/>
+  <path d="m50 8 1.8 4.2L56 14l-4.2 1.8L50 20l-1.8-4.2L44 14l4.2-1.8Z" fill="#22B8CF"/>
+</svg>

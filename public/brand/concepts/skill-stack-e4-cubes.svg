@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Building blocks skill stack logo">
+  <defs><linearGradient id="g" x1="10" y1="53" x2="52" y2="9"><stop stop-color="#4938C8"/><stop offset="1" stop-color="#8E82F2"/></linearGradient></defs>
+  <path d="m32 5 20 10-20 10-20-10Z" fill="#8E82F2"/>
+  <path d="m12 15 20 10v17L12 32Z" fill="#4938C8"/>
+  <path d="m52 15-20 10v17l20-10Z" fill="#6554E8"/>
+  <path d="m32 31 24 12-24 12L8 43Z" fill="url(#g)" opacity=".76"/>
+  <path d="M24 19v-8l16 8v-8" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="24" cy="11" r="2.7" fill="#9FEAF5"/><circle cx="40" cy="11" r="2.7" fill="#F3A36F"/>
+</svg>

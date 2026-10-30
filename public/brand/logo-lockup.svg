@@ -1,10 +1,12 @@
-<svg width="640" height="160" viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="80" cy="34" r="10" fill="#22D3EE"/>
-  <circle cx="46" cy="112" r="10" fill="#A78BFA"/>
-  <circle cx="114" cy="112" r="10" fill="#F472B6"/>
-  <path d="M80 45 L48 100 M80 45 L112 100 M52 112 L108 112"
-        stroke="#7C3AED" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-
-  <text x="192" y="76" font-family="'Space Grotesk', 'Segoe UI', sans-serif" font-size="42" font-weight="700" fill="#F4F1FB">NexSkill</text>
-  <text x="192" y="112" font-family="'Space Grotesk', 'Segoe UI', sans-serif" font-size="42" font-weight="700" fill="#A78BFA">Labs</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 160" role="img" aria-labelledby="title desc">
+  <title id="title">NexSkill Labs</title><desc id="desc">Human Momentum ribbon symbol with the NexSkill Labs wordmark</desc>
+  <defs>
+    <linearGradient id="lower" x1="18" y1="130" x2="142" y2="78" gradientUnits="userSpaceOnUse"><stop stop-color="#8B42F2"/><stop offset=".5" stop-color="#31105D"/><stop offset="1" stop-color="#210A43"/></linearGradient>
+    <linearGradient id="upper" x1="16" y1="128" x2="150" y2="48" gradientUnits="userSpaceOnUse"><stop stop-color="#7435E8"/><stop offset=".24" stop-color="#7444F2"/><stop offset=".54" stop-color="#08C3E9"/><stop offset=".76" stop-color="#10B6DB"/><stop offset=".92" stop-color="#FF7A00"/><stop offset="1" stop-color="#FF981C"/></linearGradient>
+    <linearGradient id="person" x1="126" y1="94" x2="151" y2="37" gradientUnits="userSpaceOnUse"><stop stop-color="#F45B17"/><stop offset="1" stop-color="#FF9A1A"/></linearGradient>
+    <radialGradient id="head" cx="0" cy="0" r="1" gradientTransform="translate(141 20) rotate(124) scale(27)"><stop stop-color="#FFAA22"/><stop offset="1" stop-color="#F45A15"/></radialGradient>
+  </defs>
+  <g transform="translate(0 5)"><path d="M17 126C25 91 41 69 58 74c20 6 27 43 43 48 13 4 24-11 35-43l16 6c-13 40-30 59-52 57-27-2-36-38-49-44-8-4-14 10-18 31-3 14-20 12-16-3Z" fill="url(#lower)"/><path d="M16 122C29 64 48 45 70 58c18 10 25 35 41 36 13 1 20-17 28-44l15 6c-10 36-22 58-44 58-27 0-33-30-48-37-12-5-21 12-27 46-3 17-23 16-19-1Z" fill="url(#upper)"/><path d="M123 93c6-9 10-23 16-43 2-7 8-10 15-7l5 2c-3 5-5 10-7 17-7 23-15 38-28 47-4-4-5-10-1-16Z" fill="url(#person)"/><path d="M30 105c8-22 18-34 29-31 18 4 26 37 42 43 7 3 14 1 20-4-7 16-15 26-25 28-23-7-31-37-44-43-8-3-14 3-22 20v-13Z" fill="#2E0D56" opacity=".76"/><circle cx="148" cy="26" r="13" fill="url(#head)"/></g>
+  <text x="188" y="76" fill="#2E0E4D" font-family="'Manrope','Segoe UI',Arial,sans-serif" font-size="52" font-weight="800" letter-spacing="-2.4">NexSkill</text>
+  <text x="188" y="133" fill="#2E0E4D" font-family="'Manrope','Segoe UI',Arial,sans-serif" font-size="52" font-weight="450" letter-spacing="-2.1">Labs</text>
 </svg>

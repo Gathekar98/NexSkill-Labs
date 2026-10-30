@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Open book and spark logo">
+  <defs><linearGradient id="g" x1="12" y1="53" x2="52" y2="11"><stop stop-color="#4938C8"/><stop offset="1" stop-color="#7667F2"/></linearGradient></defs>
+  <path d="M7 17c10-3 18 0 25 7v31C25 48 17 45 7 48Z" fill="url(#g)"/>
+  <path d="M57 17c-10-3-18 0-25 7v31c7-7 15-10 25-7Z" fill="#8E82F2"/>
+  <path d="M32 24v31" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="m32 7 2.5 6.5L41 16l-6.5 2.5L32 25l-2.5-6.5L23 16l6.5-2.5Z" fill="#F3A36F"/>
+  <path d="M14 28c5 0 9 1.5 13 5M50 28c-5 0-9 1.5-13 5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".9"/>
+</svg>

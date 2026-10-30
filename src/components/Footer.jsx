@@ -36,11 +36,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-line bg-surface">
+    <footer className="hm-footer">
       <div className="container-px grid gap-10 py-16 md:grid-cols-4">
         <div>
-          <p className="font-display text-xl font-semibold">{site.shortName}</p>
-          <p className="font-display text-sm text-muted mb-4">Labs.</p>
+          <Link to="/" className="brand-lockup brand-lockup-footer mb-4" aria-label={`${site.name} home`}>
+            <img src="/brand/logo-mark.svg" alt="" width="52" height="42" className="brand-mark" />
+            <span className="brand-name"><strong>{site.shortName}</strong><span className="hm-logo-labs">Labs</span></span>
+          </Link>
           <p className="text-sm text-muted mb-5">{site.tagline}</p>
           <form onSubmit={handleSubscribe} className="flex gap-2">
             <input
@@ -49,7 +51,7 @@ export default function Footer() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email"
-              className="w-full rounded-full border border-line bg-surface2 px-4 py-2 text-sm text-paper outline-none placeholder:text-muted focus:border-violet"
+              className="w-full rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-violet-soft"
             />
             <button
               type="submit"
@@ -117,7 +119,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-line">
+      <div className="border-t border-white/10">
         <div className="container-px flex flex-col gap-3 py-6 text-xs text-muted md:flex-row md:items-center md:justify-between">
           <p>
             © {new Date().getFullYear()} {site.name}. All Rights Reserved.
