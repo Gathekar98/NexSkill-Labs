@@ -4,6 +4,10 @@ import { loadRazorpayScript } from "../lib/loadRazorpay";
 import { fees } from "../data/fees";
 import { site } from "../data/site";
 
+// Temporary switch: keep the Razorpay checkout implementation ready, but
+// submit registrations directly until the live Razorpay account is enabled.
+const PAYMENT_CHECKOUT_ENABLED = false;
+
 const streamOptions = [
   "Computer Science (CSE)",
   "Electronics & Telecommunication (ENTC)",
@@ -51,6 +55,14 @@ export default function RegistrationForm({ context }) {
     setErrorMsg("");
 
     try {
+      if (!PAYMENT_CHECKOUT_ENABLED) {
+        await api.registerForProgram({ context, formData: form });
+        setStatus("success");
+        setForm(emptyForm);
+        return;
+      }
+
+      // Razorpay checkout is intentionally retained for reactivation later.
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
         throw new Error("Couldn't load the payment window. Check your connection and try again.");
@@ -111,8 +123,8 @@ export default function RegistrationForm({ context }) {
         </svg>
         <h3 className="font-display text-xl font-semibold mb-2">You're registered!</h3>
         <p className="text-muted">
-          A confirmation with your payment receipt has been sent to your email.
-          We'll be in touch soon.
+          A confirmation has been sent to your email. Our team will contact you
+          shortly to arrange payment and share the next steps.
         </p>
       </div>
     );
@@ -241,11 +253,11 @@ export default function RegistrationForm({ context }) {
         disabled={status === "loading"}
         className="btn-primary w-full min-w-0 justify-center disabled:opacity-60"
       >
-        {status === "loading" ? "Opening payment..." : `Register & Pay ₹${fee.amount}`}
+        {status === "loading" ? "Submitting registration..." : "Submit registration"}
       </button>
 
       <p className="text-xs text-muted text-center">
-        You'll be redirected to a secure Razorpay checkout to complete payment.
+        Our team will contact you after registration to arrange payment securely.
       </p>
 
       {status === "error" && <p className="text-sm text-ember">{errorMsg}</p>}

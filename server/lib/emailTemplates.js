@@ -106,15 +106,18 @@ function careersAdminEmail({ name, email, phone, program, message }) {
 
 // ── Admin notification: paid registration (NQT / program / internship) ──
 function registrationAdminEmail(reg) {
+  const paymentReceived = Boolean(reg.paymentId);
   return {
-    subject: `💰 Paid registration — ${reg.programLabel} — ${reg.name}`,
+    subject: paymentReceived
+      ? `💰 Paid registration — ${reg.programLabel} — ${reg.name}`
+      : `New registration — ${reg.programLabel} — ${reg.name}`,
     html: baseWrapper({
-      eyebrow: "Registration & Payment",
-      title: `New paid registration: ${reg.programLabel}`,
+      eyebrow: paymentReceived ? "Registration & Payment" : "Registration",
+      title: paymentReceived
+        ? `New paid registration: ${reg.programLabel}`
+        : `New registration: ${reg.programLabel}`,
       bodyHtml: `
-        <p style="margin:0 0 16px;padding:12px 16px;background:rgba(34,211,238,0.12);border:1px solid #22D3EE;border-radius:10px;color:#22D3EE;font-size:14px;font-weight:600;">
-          Payment received: ₹${reg.amount} · ${reg.paymentId}
-        </p>
+        ${paymentReceived ? `<p style="margin:0 0 16px;padding:12px 16px;background:rgba(34,211,238,0.12);border:1px solid #22D3EE;border-radius:10px;color:#22D3EE;font-size:14px;font-weight:600;">Payment received: ₹${reg.amount} · ${reg.paymentId}</p>` : ""}
         ${fieldRows({
           Name: reg.name,
           Email: reg.email,
@@ -125,10 +128,14 @@ function registrationAdminEmail(reg) {
           Stream: reg.stream,
           Level: reg.level,
           "Registered for": reg.programLabel,
-          "Amount paid": `₹${reg.amount}`,
-          "Payment ID": reg.paymentId,
-          "Order ID": reg.orderId,
-          "Paid at": reg.paidAt,
+          ...(paymentReceived
+            ? {
+                "Amount paid": `₹${reg.amount}`,
+                "Payment ID": reg.paymentId,
+                "Order ID": reg.orderId,
+                "Paid at": reg.paidAt,
+              }
+            : {}),
         })}
       `,
     }),
@@ -137,17 +144,22 @@ function registrationAdminEmail(reg) {
 
 // ── Candidate confirmation: sent after successful payment ──────────
 function candidateConfirmationEmail(reg) {
+  const paymentReceived = Boolean(reg.paymentId);
   return {
     subject: `You're registered — ${reg.programLabel} ✅`,
     html: baseWrapper({
-      eyebrow: "Registration confirmed",
-      title: `Hi ${reg.name.split(" ")[0]}, you're all set!`,
+      eyebrow: paymentReceived ? "Registration confirmed" : "Registration received",
+      title: paymentReceived
+        ? `Hi ${reg.name.split(" ")[0]}, you're all set!`
+        : `Hi ${reg.name.split(" ")[0]}, we received your registration!`,
       bodyHtml: `
         <p style="margin:0 0 16px;">
           Thanks for registering for <strong style="color:#25243A;">${reg.programLabel}</strong>.
-          Your payment has been received and your seat is confirmed.
+          ${paymentReceived
+            ? "Your payment has been received and your seat is confirmed."
+            : "Our team will contact you shortly to arrange payment and explain the next steps."}
         </p>
-        <div style="margin:0 0 20px;padding:16px;background:#F6F6FB;border-radius:10px;border:1px solid #E8E7F0;">
+        ${paymentReceived ? `<div style="margin:0 0 20px;padding:16px;background:#F6F6FB;border-radius:10px;border:1px solid #E8E7F0;">
           <p style="margin:0 0 10px;color:#6C6B80;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Payment receipt</p>
           ${fieldRows({
             "Registered for": reg.programLabel,
@@ -155,7 +167,7 @@ function candidateConfirmationEmail(reg) {
             "Payment ID": reg.paymentId,
             Date: reg.paidAt,
           })}
-        </div>
+        </div>` : ""}
         <p style="margin:0 0 16px;">
           We'll review your details and get back to you shortly with next steps
           and onboarding information. Keep an eye on your inbox (and spam

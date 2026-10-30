@@ -2,7 +2,7 @@ import PageHeader from "../components/PageHeader";
 import RegistrationForm from "../components/RegistrationForm";
 
 const steps = [
-  { title: "Register", desc: "Fill in your details and complete the registration fee payment." },
+  { title: "Register", desc: "Fill in your details. Our team will contact you to arrange payment." },
   { title: "Take the assessment", desc: "A timed test covering aptitude and your chosen technical track." },
   { title: "Get your score", desc: "Receive a detailed breakdown of your strengths and gaps." },
   { title: "Get matched", desc: "Qualifying scores unlock fast-tracked entry into our internship programs." },

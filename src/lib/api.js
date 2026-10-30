@@ -29,6 +29,7 @@ async function post(path, body) {
 export const api = {
   contact: (payload) => post("/api/contact", payload),
   register: (payload) => post("/api/register", payload),
+  registerForProgram: (payload) => post("/api/payment/register", payload),
   subscribe: (email) => post("/api/subscribe", { email }),
   createOrder: (payload) => post("/api/payment/create-order", payload),
   verifyPayment: (payload) => post("/api/payment/verify", payload),

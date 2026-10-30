@@ -39,6 +39,39 @@ function validateForm(fields) {
   return null;
 }
 
+// Temporary registration path while live Razorpay onboarding is pending.
+// The paid create-order and verify routes below remain unchanged and can be
+// re-enabled from the frontend feature flag when live payments are ready.
+router.post("/register", (req, res) => {
+  const { context, formData } = req.body || {};
+
+  const fee = getFee(context);
+  if (!fee) {
+    return res.status(400).json({ ok: false, error: "Unknown program/context" });
+  }
+
+  const error = validateForm(formData || {});
+  if (error) return res.status(400).json({ ok: false, error });
+
+  const registration = {
+    type: "registration",
+    context,
+    programLabel: fee.label,
+    registrationStatus: "payment_to_be_arranged",
+    submittedAt: new Date().toISOString(),
+    ...formData,
+  };
+
+  saveLead(registration);
+  res.json({ ok: true });
+
+  const admin = registrationAdminEmail(registration);
+  sendMailAsync({ to: process.env.NOTIFY_EMAIL, subject: admin.subject, html: admin.html });
+
+  const candidate = candidateConfirmationEmail(registration);
+  sendMailAsync({ to: registration.email, subject: candidate.subject, html: candidate.html });
+});
+
 // Step 1: candidate submits the form -> we create a Razorpay order for
 // the CORRECT, server-side fee amount (never trust a client-sent amount).
 router.post("/create-order", async (req, res) => {
